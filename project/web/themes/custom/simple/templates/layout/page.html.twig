@@ -57,25 +57,34 @@
 
   {{ page.help }}
 
-  <main role="main">
+  <main role="main" class="container">
     <a id="main-content" tabindex="-1"></a>{# link is in html.html.twig #}
 
-    <div class="main-content">
+    <div class="main-content row">
 
     {% if page.sidebar_first %}
-      <aside class="layout-sidebar-first" role="complementary">
+      <aside class="layout-sidebar-first col-md-3" role="complementary">
         {{ page.sidebar_first }}
       </aside>
     {% endif %}
 
-     <div class="layout-content">
+    {% set section_attributes = create_attribute() %}
+    {% if page.sidebar_first and page.sidebar_second %}
+      {% set content_classses = ['col-md-6', 'layout-content'] %}
+    {% elseif page.sidebar_first or page.sidebar_second %}
+      {% set content_classses = ['col-md-9', 'layout-content'] %}
+    {% else %}
+      {% set content_classses = ['col-md-12', 'layout-content'] %}
+    {% endif %}
+
+    <div{{ section_attributes.addClass(content_classses) }}>
       {{ page.content }}
     </div>{# /.layout-content #}
 
     
 
     {% if page.sidebar_second %}
-      <aside class="layout-sidebar-second" role="complementary">
+      <aside class="layout-sidebar-second col-md-3" role="complementary">
         {{ page.sidebar_second }}
       </aside>
     {% endif %}
